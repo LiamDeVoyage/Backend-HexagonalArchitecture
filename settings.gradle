@@ -1,2 +1,4 @@
 rootProject.name = 'hexagonal-architecture-devjaeseung'
+include 'coffeedelivery-application'
+include 'coffeedelivery-infrastructure'
 

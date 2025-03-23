@@ -1,4 +1,7 @@
-package com.jaeseung.coffeedelivery.application.domain.order;
+package com.jaeseung.coffeedelivery.application.domain.shared;
 
 public enum Drink {
+    LATTE,
+    ESPRESSO,
+    CAPPUCCINO
 }

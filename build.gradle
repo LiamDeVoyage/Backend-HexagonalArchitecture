@@ -1,19 +1,24 @@
 plugins {
-    id 'java'
+    id 'java-library'
 }
 
 group = 'com.jaeseung'
-version = '1.0-SNAPSHOT'
+version = '0.0.1-SNAPSHOT'
 
-repositories {
-    mavenCentral()
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
-dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-}
+allprojects {
+    repositories {
+        mavenCentral()
+    }
 
-test {
-    useJUnitPlatform()
+    tasks.withType(Test.class).tap {
+        configureEach {
+            useJUnitPlatform()
+        }
+    }
 }

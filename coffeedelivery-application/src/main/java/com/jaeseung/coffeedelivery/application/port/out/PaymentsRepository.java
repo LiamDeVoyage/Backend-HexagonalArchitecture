@@ -1,4 +1,10 @@
 package com.jaeseung.coffeedelivery.application.port.out;
 
-public interface PaymentsJpaPort {
+import com.jaeseung.coffeedelivery.application.domain.payment.Payment;
+
+import java.util.UUID;
+
+public interface PaymentsRepository {
+    Payment findPaymentByOrderId(UUID orderId);
+    Payment save(Payment payment);
 }
