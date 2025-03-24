@@ -68,6 +68,6 @@ public class CoffeeShopService implements OrderingCoffeeUseCase {
     public Order takeOrder(UUID orderId) {
         var order = orders.findOrderById(orderId);
 
-        return orders.save(order.markTaken());
+        return orders.save(order.markBeingDelivered());
     }
 }

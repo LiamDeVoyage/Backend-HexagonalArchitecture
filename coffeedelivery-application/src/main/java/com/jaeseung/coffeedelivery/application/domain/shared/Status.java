@@ -5,5 +5,7 @@ public enum Status {
     PAID,
     PREPARING,
     READY,
-    TAKEN
+    TAKEN,
+    DELIVERING,
+    DELIVERED,
 }

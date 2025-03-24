@@ -33,4 +33,16 @@ public class OrderTestFactory {
         return anOrderInPreparation()
                 .markPrepared();
     }
+
+    // 배달 시작하는 Order 객체
+    public static Order anOrderInDelivery() {
+        return aReadyOrder()
+                .markBeingDelivered();
+    }
+
+    // 배달 완료된 Order 객체
+    public static Order aFinishedDelivery() {
+        return anOrderInDelivery()
+                .markDelivered();
+    }
 }

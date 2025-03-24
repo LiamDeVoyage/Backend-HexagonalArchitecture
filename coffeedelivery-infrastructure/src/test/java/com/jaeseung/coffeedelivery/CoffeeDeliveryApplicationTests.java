@@ -1,5 +1,6 @@
 package com.jaeseung.coffeedelivery;
 
+import com.jaeseung.coffeedelivery.application.service.CoffeeDeliveryService;
 import com.jaeseung.coffeedelivery.application.service.CoffeeMachineService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,14 +29,18 @@ class CoffeeDeliveryApplicationTests {
     @Autowired
     private CoffeeMachineService coffeeMachineService;
 
+    @Autowired
+    private CoffeeDeliveryService coffeeDeliveryService;
+
     @Test
-    @DisplayName("주문을 접수하고, 주문을 결제하고, 주문을 준비하고, 주문 영수증을 읽고, 주문 완료하는 통합 테스트를 진행합니다.")
+    @DisplayName("주문을 접수하고, 주문을 결제하고, 주문을 준비하고, 주문 영수증을 읽고, 주문 완료하고, 배달을 하는 통합 테스트를 진행합니다.")
     void processNewOrder() throws Exception {
         var orderId = placeOrder();
         payOrder(orderId);
         prepareOrder(orderId);
         readReceipt(orderId);
-        takeOrder(orderId);
+        deliverOrder(orderId);
+        //takeOrder(orderId);
     }
 
     @Test
@@ -95,9 +100,14 @@ class CoffeeDeliveryApplicationTests {
                 .andExpect(status().isOk());
     }
 
-    private void takeOrder(UUID orderId) throws Exception {
-        mockMvc.perform(delete("/receipt/{id}", orderId))
-                .andExpect(status().isOk());
+//    private void takeOrder(UUID orderId) throws Exception {
+//        mockMvc.perform(delete("/receipt/{id}", orderId))
+//                .andExpect(status().isOk());
+//    }
+
+    private void deliverOrder(UUID orderId) throws Exception {
+        coffeeDeliveryService.startDeliveringOrder(orderId);
+        coffeeDeliveryService.finishDeliveringOrder(orderId);
     }
 
 }

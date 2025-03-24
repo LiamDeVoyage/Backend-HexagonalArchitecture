@@ -3,10 +3,12 @@ package com.jaeseung.coffeedelivery.application;
 import com.jaeseung.coffeedelivery.application.domain.order.LineItem;
 import com.jaeseung.coffeedelivery.application.domain.order.Order;
 import com.jaeseung.coffeedelivery.application.domain.shared.*;
+import com.jaeseung.coffeedelivery.application.port.in.DeliveringCoffeeUseCase;
 import com.jaeseung.coffeedelivery.application.port.in.OrderingCoffeeUseCase;
 import com.jaeseung.coffeedelivery.application.port.in.PreparingCoffeeUseCase;
 import com.jaeseung.coffeedelivery.application.port.out.OrdersRepository;
 import com.jaeseung.coffeedelivery.application.port.out.PaymentsRepository;
+import com.jaeseung.coffeedelivery.application.service.CoffeeDeliveryService;
 import com.jaeseung.coffeedelivery.application.service.CoffeeMachineService;
 import com.jaeseung.coffeedelivery.application.service.CoffeeShopService;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,6 +31,7 @@ public class AcceptanceTests {
     private PaymentsRepository paymentsRepository;
     private OrderingCoffeeUseCase customerUsecase;
     private PreparingCoffeeUseCase baristaUsecase;
+    private DeliveringCoffeeUseCase deliveryUsecase;
 
     @BeforeEach
     void setup() {
@@ -36,6 +39,7 @@ public class AcceptanceTests {
         paymentsRepository = new InMemoryPaymentsRepository();
         customerUsecase = new CoffeeShopService(ordersRespository, paymentsRepository);
         baristaUsecase = new CoffeeMachineService(ordersRespository);
+        deliveryUsecase = new CoffeeDeliveryService(ordersRespository);
     }
 
     @Test
@@ -70,7 +74,7 @@ public class AcceptanceTests {
     }
 
     @Test
-    @DisplayName("소비자가 결제를 진행한다.")
+    @DisplayName("소비자가 결제를 진행합니다.")
     void customerCanPayTheOrder() {
 
         // Given
@@ -147,21 +151,31 @@ public class AcceptanceTests {
     }
 
     @Test
-    @DisplayName("소비자는 준비완료된 주문을 수령해갈 수 있습니다.")
-    void customerCanTakeTheOrderWhenItIsReady() {
-
+    @DisplayName("배달원은 준비완료된 주문을 배달하기 시작합니다.")
+    void deliveryCanStartPreparingTheOrderWhenItIsReady() {
         // Given
         var existingOrder = ordersRespository.save(aReadyOrder());
 
         // When
-        var takenOrder = customerUsecase.takeOrder(existingOrder.getId());
+        var orderInDeliveration = deliveryUsecase.startDeliveringOrder(existingOrder.getId());
 
         // Then
-        assertThat(takenOrder.getStatus()).isEqualTo(Status.TAKEN);
+        assertThat(orderInDeliveration.getStatus()).isEqualTo(Status.DELIVERING);
+
     }
 
+    @Test
+    @DisplayName("배달원은 배달을 완료합니다.")
+    void customerCanTakeTheOrderWhenItIsReady() {
+        // Given
+        var existingOrder = ordersRespository.save(anOrderInDelivery());
 
+        // When
+        var deliveredOrder = deliveryUsecase.finishDeliveringOrder(existingOrder.getId());
 
+        // Then
+        assertThat(deliveredOrder.getStatus()).isEqualTo(Status.DELIVERED);
 
+    }
 
 }

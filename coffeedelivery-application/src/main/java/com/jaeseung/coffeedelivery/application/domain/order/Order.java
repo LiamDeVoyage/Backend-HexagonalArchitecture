@@ -81,11 +81,27 @@ public class Order {
         return this;
     }
 
-    public Order markTaken() {
+//    public Order markTaken() {
+//        if (status != Status.READY) {
+//            throw new IllegalStateException("Order is not ready");
+//        }
+//        status = Status.TAKEN;
+//        return this;
+//    }
+
+    public Order markBeingDelivered() {
         if (status != Status.READY) {
             throw new IllegalStateException("Order is not ready");
         }
-        status = Status.TAKEN;
+        status = Status.DELIVERING;
+        return this;
+    }
+
+    public Order markDelivered() {
+        if (status != Status.DELIVERING) {
+            throw new IllegalStateException("Order is not ready");
+        }
+        status = Status.DELIVERED;
         return this;
     }
 }
