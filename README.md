@@ -51,3 +51,34 @@
 - **어댑터**: 포트를 구현하거나 사용하는 외부 시스템과의 연결
 <img width="1200" alt="스크린샷 2025-03-24 15 32 30" src="https://github.com/user-attachments/assets/ba3ebd42-3c3e-4b61-808e-517aeb0ba423" />
 
+이 프로젝트의 구조는 다음과 같이 구성하였습니다.
+coffeedelivery-application
+├── Domain
+│   ├── Order
+│   └── Payment
+├── Port
+│   ├── In
+│   │   ├── OrderingUseCase
+│   │   ├── DeliveringUseCase
+│   │   └── PreparingUseCase
+│   └── Out
+│       ├── OrdersRepository
+│       └── PaymentsRepository
+└── Service
+    ├── CoffeeDeliveryService
+    ├── CoffeeMachineService
+    └── CoffeeShopService
+
+coffeedelivery-infrastructure
+└── Adapter
+    ├── In
+    │   ├── OrderController
+    │   ├── PaymentController
+    │   └── ReceiptController
+    └── Out
+        └── persistence
+            ├── PaymentJpaAdapter
+            ├── PaymentJpaRepository
+            ├── OrdersJpaAdapter
+            └── OrderJpaRepository
+
