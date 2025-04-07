@@ -161,6 +161,8 @@ CoffeeShopService는 **주문 관리**라는 단일 책임을 수행한다고 �
 
 ---
 # 4. 단위 테스트, 통합 테스트, 시스템 테스트
+![스크린샷 2025-03-09 14 59 19](https://github.com/user-attachments/assets/2c1b62a4-dd76-4615-9b22-5feef55f662e)
+
 
 
 
